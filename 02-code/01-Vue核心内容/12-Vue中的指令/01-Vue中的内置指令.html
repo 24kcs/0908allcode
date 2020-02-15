@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+
+	<div id="app">
+		<!--插值语法,里面是一个表达式-->
+		<p>{{content}}</p>
+		<!--设置p标签中间的文本内容,除了使用插值语法以外,
+			还可以使用一个指令 v-text  指令-->
+		<p v-text="content"></p>
+
+		<p v-html="content"></p>
+	</div>
+	<script type="text/javascript">
+
+			const vm = new Vue({
+				el:'#app',
+				data:{
+					content:'<a href="http://www.baidu.com">百度</a>'
+				}
+			})
+
+			/*
+			
+			标签中间的文本设置在原生的DOM可以使用:innerText或者textContent
+			在Vue中也可以使用插值语法  {{表达式}}
+			还可以使用指令 v-text="表达式"
+			v-text指令相当于 innerText或者是textContent
+			原生DOM中有innerHTML的属性可以设置或者获取标签中间的html及文本内容
+			Vue中也有一个指令,作用相当于innerHTML,就是v-html
+
+			总结:  一个面试题
+			Vue中的内置指令(系统自带的):
+			v-model 双向数据绑定 
+			v-bind 简写  :  强制数据绑定
+			v-on   简写  @ 事件绑定
+			v-if  可以配合 v-else 及v-else-if使用  标签显示或者隐藏,DOM树中有可能是不存在的
+			v-show 标签显示或者隐藏,DOM树中是存在的
+			v-for 遍历的
+			v-text 设置文本
+			v-html 设置html及文本
+			
+			
+			*/
+
+
+
+		/**
+		 * 
+		 * 指令的作用:就是操作标签
+		 * v-text:纯文本
+		 * v-html:html标签内容
+		 * ref:为某个元素注册一个唯一的标识,vue对象通过$refs.这个属性值即可访问该元素对象
+		 * 
+		 * Vue中自带的指令(系统的指令,内置指令)
+		 * 
+		 * 
+		 * 
+		*/
+	
+	
+	</script>
+</body>
+
+</html>

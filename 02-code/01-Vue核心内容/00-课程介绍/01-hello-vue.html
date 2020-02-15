@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+  <script src="https://cdn.bootcss.com/vue/2.6.9/vue.js"></script>
+</head>
+
+<body>
+  <!--下面的这个div是容器-->
+  <div id="app">
+    <!--这里的{{}}是插值语法,括号中间放的是表达式-->
+    <p>{{msg}}</p>
+  </div>
+  <script type="text/javascript">
+    // 渐进式:本身这个库实现的功能是有限的,但是相关联的插件(包)有很多,如果需要实现更多的功能,只需要引入相关的包(插件),就可以实现
+    // 创建Vue的实例对象
+    const vm = new Vue({
+      // el--->element----元素--->通过选择器获取相对应的元素
+      // el--->键(属性):'#app'--->值(选择器)
+      el: '#app',
+      // 数据对象
+      data: {
+        // 键值的关系  这里的msg是属性(键), 冒号后面的叫值
+        msg: '在家坐月子的日子开心不'
+      }
+    }); // 分号可加可不加
+
+    // 创建Vue的实例对象
+    // MVVM-------M---Model  V---view  vm----Vue的实例对象
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        msg: '我勒个去'
+      }
+    })
+
+    // 总结: html中的{{}} 双大括号叫插值语法,括号中间放的是表达式
+    // (注意: html中的msg叫表达式,data大括号中的msg叫属性),先定义属性,表达式才有使用的价值(意义)
+
+  </script>
+</body>
+
+</html>

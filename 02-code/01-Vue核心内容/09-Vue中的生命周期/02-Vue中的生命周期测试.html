@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<button @click="clear">干掉m实例</button>
+		<button @click="updateData">更新数据</button>
+		<p v-show="isShow">我喜欢你</p>
+	</div>
+	<script type="text/javascript">
+		const vm = new Vue({
+			el: '#app',
+			data: {
+				isShow: false
+			},
+			// 生命周期的回调函数(钩子)
+
+			// 数据初始化之前的生命周期回调
+			beforeCreate() {
+				console.log('数据初始化之前', this.isShow)
+			},
+			// 数据初始化之后的生命周期回调
+			created() {
+				console.log('数据初始化之后', this.isShow)
+			},
+			// 页面渲染之前的生命周期回调
+			beforeMount() {
+				console.log('页面渲染之前')
+			},
+			// 页面渲染之后的生命周期回调----非常的常用
+			mounted() {
+				console.log('页面渲染之后')
+			},
+			// 页面重新更新之前
+			beforeUpdate() {
+				// true数据变化了,页面就可能开始重新的渲染(重新的更新界面)
+				console.log('页面更新之前',this.isShow) //true
+			},
+			// 页面重新更新之后
+			updated() {
+				console.log('页面更新之后',this.isShow) // true
+			},
+
+			// 销毁实例之前
+			beforeDestroy () {
+					console.log('销毁之前')
+			},
+			// 销毁实例之后
+			destroyed () {
+					console.log('销毁之后')
+			},
+
+
+
+
+			methods: {
+				// 干掉vm
+				clear() {
+					this.$destroy()
+				},
+				// 更新数据的方法
+				updateData() {
+					this.isShow = !this.isShow
+				}
+			}
+		})
+
+
+	</script>
+</body>
+
+</html>

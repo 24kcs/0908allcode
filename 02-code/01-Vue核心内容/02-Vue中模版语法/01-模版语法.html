@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <!--插值语法:-->
+    <h2>{{msg}}</h2>
+    <h2>{{msg.toUpperCase()}}</h2>
+    <h2>{{msg.split(' ').reverse().join(' ')}}</h2>
+    <!--强制数据绑定-->
+    <a v-bind:href="url">百度</a>
+    <!--强制绑定数据的简写方式:-->
+    <a :href="url">百度</a>
+    <input type="text" v-bind:value="test">
+    <!--绑定事件监听-->
+    <button v-on:click="clickHandle1">健哥说:点我</button>
+    <button v-on:click="clickHandle2">华哥说:揍我</button>
+    <button v-on:click="clickHandle3">铭哥说:亲我</button>
+    <button @click="clickHandle4">24k纯帅的杨哥说:真好</button>
+
+      <hr>
+    <!--Vue中如何获取DOM元素,并进行操作-->
+    <button @click="changeText">改变p标签中的显示内容</button>
+    <p ref="p1">今天天气格外好,健哥来到桃花岛</p>
+    <button @click="changeText2">第二种改变p标签内容的方式</button>
+    <p>{{msg2}}</p>
+
+
+  </div>
+  <script type="text/javascript">
+    const vm = new Vue({
+      el: '#app',
+      // 数据对象
+      data: {
+        msg: 'what are you no sha Lei',
+        url: 'http://www.baidu.com',
+        test: '哈哈',
+        msg2:'我好寂寞'
+      },
+      // 写方法的地方---可以写很多的方法
+      methods: {
+        // 普通的写法
+        clickHandle1: function () {
+          console.log('我被点了', this)
+        },
+        // 箭头函数的写法,此时使用箭头函数,里面的this不是Vue的实例对象,而是window对象
+        clickHandle2: () => {
+          console.log('我也被点了', this)
+        },
+        // 推荐的写法
+        clickHandle3() {
+          console.log('来啊,快活啊', this)
+        },
+        clickHandle4() {
+          console.log('我是男女通吃', this)
+        },
+        // 点击按钮改变p中的内容的回调
+        changeText(){
+          this.$refs.p1.innerHTML='哈哈,我又变帅了'
+        },
+        changeText2(){
+          this.msg2='哦,玛利亚'
+        }
+      }
+
+
+    })
+
+    /**
+     * 强制数据绑定: 指令:  v-bind:属性名字="表达式"
+     * 总结:
+     * v-bind:属性='表达式' 表达式一定是在实例化Vue的时候定义的属性
+     * v-bind一般用在标签中的某个属性是一个动态的值的时候,就会用v-bind
+     * 注意:一般在Vue中,v-开头的叫指令
+     * v-model:双向数据绑定
+     * v-bind:强制数据绑定
+     * v-bind:属性名字可以简写    :属性名字="表达式"
+     *
+     * v-on:事件名字="回调函数"
+     * v-on是一个指令,作用:事件绑定,简写:    @事件名字="回调函数"
+     * 例子: @click="clickHandle"
+     * 总结:如果标签绑定了事件,那么事件对应的回调函数在实例化Vue的时候,里面的methods对象中书写,推荐使用最简单的写法:就是一个函数
+     *
+     * 高阶函数:有一个函数,参数是函数,返回值也是一个函数
+     * 高阶组件:有一个组件,参数是组件,返回值也是一个组件
+     *
+     * 高阶函数:
+     * function f1(fn){
+     *  return function(){
+     *    fn()
+     *  }
+     * }
+     *
+     *  如何获取DOM元素,可以通过$refs对象来获取
+     * html标签中:  <p ref="p1">哈哈</p>
+     * Vue的代码中: this.$refs.p1.innerHTML='嘎嘎'
+     * 总结:
+     *  在Vue中如果这个属性名字或者对象是$开头的,那么这个属性就是Vue的实例对象来使用的
+     *
+     *
+     *
+     *
+     *
+     *
+     * v-on:是一个指令,绑定事件的,后面跟着的是一个函数(也是一个方法),需要在Vue的配置对象中的methods对象中定义
+     * v-on绑定的事件对应的回调函数需要在methods中书写,但是这个函数定义的时候,可以写function函数,不能写箭头函数,因为this指定会发生改变
+     *
+     * 最终总结:
+     * v-bind----->写法:    :属性名字="表达式"
+     * v-on------>写法:     @小写事件名字="方法"
+     *
+     * Vue中有数据代理------Vue的源码分析中可以知道原理
+     * 数据代理:本身这个对象没有这个属性,但是通过代理的方式,该对象就有了这个属性
+     *
+     * 模版语法:指的是静态页面中使用到的vue的相关的语法
+     *
+     *
+     */
+
+
+
+    /**
+     * v-bind--->属性,但是是v-开头,在Vue中叫指令,
+     * v-bind指令的作用:强制绑定数据,为当前的属性里面绑定一个值(数据)
+     * v-bind指令作用:如果想要把数据(一个值,动态的值)存储到一个属性中,那么可以使用v-bind指令
+     * v-bind指令可以简写-----> :属性名字="表达式"----->属性名字="值"
+     * 总结:任何的属性都可以通过强制绑定数据的方式进行值的保存
+     * v-on:click----->
+     * v-on是一个属性,在Vue中叫指令
+     * v-on指令作用:绑定事件监听
+     * v-on:事件的名字="回调函数"--->注意问题:事件名字是没有on的
+     * methods:{}是一个对象,使用到的所有的方法一般都是在methods对象中定义的,每个方法之间使用逗号隔开,methods对象中的方法定义的时候都是以键值对的方式进行定义的
+     * v-on指令可以简写:-------->@事件名字="回调函数"
+     *
+     * 总结:
+     * v-model指令:双向数据绑定,一般用在表单标签上
+     * v-bind指令:强制绑定数据的,一般用于属性进行值的保存操作,可以简写---->:属性名字="表达式"
+     * v-on指令:绑定事件监听的-----可以简写---->@事件名字="回调函数"
+     *
+     * Vue中是可以获取DOM对象,然后进行操作的,但是一般不是特别多(项目中会使用该方式来获取DOM对象)
+     * 1.首先在要获取的html标签上使用  ref属性  ,用法:   ref="值", 值就相当于是id属性的值
+     * 2.在Vue的实例对象内部的相关的操作的方法中,直接使用vm(this).$refs.值, ---->值就是上面ref属性的值--->此时可以直接获取该DOM元素对象,并进行操作
+     *
+     *
+     *
+     */
+
+
+
+
+
+  </script>
+</body>
+
+</html>

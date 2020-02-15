@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>玉树临风美少年，揽镜自顾夜不眠 </title>
+	<script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+	<!--容器,DOM容器,Vue中的内容会全部的渲染到当前的这个容器中-->
+	<div id="app">
+		<!--{{msg}}插值语法,msg是一个表达式-->
+		<h1>{{msg}}</h1>
+	</div>
+	<script type="text/javascript">
+		// 创建Vue的实例对象
+		const vm = new Vue({
+			// el--->选择器
+			el: '#app',
+			// 数据对象
+			data: {
+				// 键和值的关系,属性和值的关系
+				msg: '健哥是一个风流倜傥,英俊潇洒,骚气十足的男人'
+			}
+		})
+
+		// vm是点不出来data的,因为,js是一门动态类型的语言,对象没有什么属性,只要点了,此时这个对象就有了这个属性了,但是没有赋值,所以,结果是undefined
+		// Vue有数据代理的功能,data对象中的属性可以直接通过vm实例对象点出来,但是不能直接通过vm.data.属性的方式访问.
+		// 问题:Vue是怎么做到data对象上的属性vm可以直接访问,但是vm.data就有问题?
+		// 答案:Vue源码分析的时候讲解,现在不用纠结了
+		// data中的属性都可以直接通过vm来访问和使用
+		console.log(vm)
+		console.log(vm.msg)
+		console.log(vm.data)
+	
+		console.log(vm.data.msg)
+
+	// MVVM结合代码再次解释一下
+		/*
+		MVVM:
+		M: 数据Model
+		V: 视图view
+		VM:Vue的实例
+	
+	
+		*/
+
+		/**
+		 * data是一个对象,所有的数据的相关的属性一般都放在data中
+		 * data中定义的属性,在html模版中使用的时候,此时的这个属性叫表达式
+		 * html模版中{{msg}}---->双大括号是插值语法,msg--->表达式
+		 * 注意:表达式在使用的时候,前提肯定是定义过
+		 *
+		 */
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+	<style type="text/css">
+		p {
+			background-color: green;
+			width: 100px;
+			text-align: center;
+		}
+		/*显示的时候所有的过渡效果用2s时间*/
+		.fade-enter-active{
+			transition: all 2s;
+		}
+		/*隐藏的时候所有的过渡效果用3s时间*/
+		.fade-leave-active{
+			transition: all 3s;
+		}
+
+		.fade-enter,.fade-leave-to{
+			transform: translateX(30px);
+		}
+
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<button @click="isShow=!isShow">实现过渡的效果</button>
+		<transition name="fade">
+			<p v-show="isShow">hello world</p>
+		</transition>
+	
+	</div>
+	<script type="text/javascript">
+		const vm = new Vue({
+			el: '#app',
+			data: {
+				isShow: false
+			}
+		})
+	</script>
+</body>
+
+</html>

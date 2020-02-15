@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+	<button @click="clear">干掉vm实例和定时器</button>
+	<p v-show="isShow">你笑起来真好看</p>
+	</div>
+	<script type="text/javascript">
+		const vm = new Vue({
+			el:'#app',
+			data:{
+				isShow:false
+			},
+			// 也是一个生命周期的回调函数(钩子)
+			// 在vm实例对象将要销毁之前就会自动的调用了
+			beforeDestroy () {
+				clearInterval(this.timeId)
+			},
+			// 页面渲染完毕就会自动的调用下面的这个函数,执行里面的代码(什么时候使用mounted这个回调,如果需要界面渲染完毕后就做相关的操作)
+			mounted () {
+				// console.log('哈哈')
+				this.timeId=setInterval(() => {
+					this.isShow=!this.isShow
+					console.log('哈哈')
+				}, 1000);
+			},
+			methods: {
+				clear(){
+					// 调用这个实例方法的时候,就会自动的干掉vm实例对象
+					this.$destroy()
+				}
+			}
+		})
+
+		// vm实例对象创建的时候就会产生自己的生命周期(一共有11个回调函数---11个生命周期函数,也可以说是11个生命周期钩子)
+	
+
+
+	</script>
+</body>
+
+</html>

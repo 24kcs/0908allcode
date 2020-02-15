@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+  <!--第一步:引入vue.js文件-->
+  <script src="https://cdn.bootcss.com/vue/2.6.9/vue.js"></script>
+</head>
+
+<body>
+  <!--第二步:是一个div容器-->
+  <div id="app">
+    <!--这里的{{msg}}插值语法,括号中间的叫表达式,msg就是一个表达式-->
+    <h2>{{msg}}</h2>
+  </div>
+  <script type="text/javascript">
+    // Vue的代码,也是放在javascript标签中书写
+    // 先体验一下Vue的代码
+
+    // 创建Vue的实例对象
+    const vm = new Vue({
+      // el----element---元素-->通过选择器获取相对应的元素
+      el: '#app',
+      // 数据对象
+      data: {
+        // 键值关系,msg是属性,值是:'我喜欢男人,健哥说'
+        msg: '我喜欢男人,健哥说'
+      }
+    })
+
+    // 总结: msg:'值' 在data中msg叫属性,但是在上面html容器使用了,使用的时候msg叫表达式
+    // Vue实例化的时候data中的msg叫属性,上面html代码中msg叫表达式,有助于将来Vue源码分析的时候有很大帮助
+  </script>
+</body>
+
+</html>

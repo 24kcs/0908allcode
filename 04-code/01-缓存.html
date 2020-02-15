@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+</head>
+<body>
+  <script type="text/javascript">
+    // 缓存的问题
+    // 数据都存储在数据库中,但是有的个别数据存储在浏览器的本地.cookie,token都可以存储在本地,存储在浏览器中
+    // 缓存
+    // localStorage是一个对象是以键值对的方式把数据存储到浏览器中
+    // 参数1:键的名字
+    // 参数2:值
+    var obj={name:'铭哥',age:29}
+    localStorage.setItem('mingge',JSON.stringify(obj))
+    var result=JSON.parse(localStorage.getItem('mingge'))
+    console.log( result)
+    console.log(result.name)
+  </script>
+</body>
+</html>
