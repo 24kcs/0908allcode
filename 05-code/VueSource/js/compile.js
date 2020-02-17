@@ -1,14 +1,18 @@
+// 实现编译操作的构造函数,el--->#app,vm就是Vue的实例对象
 function Compile(el, vm) {
+    // 把vm实例对象存储到$vm属性中
     this.$vm = vm;
+    // 根据#app选择器获取容器对象div,并存储到$el中
     this.$el = this.isElementNode(el) ? el : document.querySelector(el);
-
+    // 判断$el 是否存在
     if (this.$el) {
+        // ====================================滴滴答-------滴滴答
         this.$fragment = this.node2Fragment(this.$el);
         this.init();
         this.$el.appendChild(this.$fragment);
     }
 }
-
+// 编译对象的原型对象
 Compile.prototype = {
     constructor: Compile,
     node2Fragment: function(el) {
@@ -81,7 +85,7 @@ Compile.prototype = {
     isEventDirective: function(dir) {
         return dir.indexOf('on') === 0;
     },
-
+    // 是一个方法,用来判断当前的节点是不是标签节点
     isElementNode: function(node) {
         return node.nodeType == 1;
     },
