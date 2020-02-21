@@ -31,6 +31,15 @@
  * router目录:用来存储路由配置的相关文件
  * store目录:用来存储Vuex相关的文件
  * 
+ * 7. 下载安装vue-router,在router目录中创建index.js和routes.js两个文件
+ * index.js文件中路由的配置,并向外暴露路由器
+ * routes.js文件引入各种路由组件,配置routes数组,并向外暴露出去
+ * 8.在pages目录中创建4个目录:每个目录中都有该目录的同名文件.vue
+ * MSite目录   MSite.vue 首页
+ * Search目录  Search.vue 搜索
+ * Order目录  Order.vue 订单
+ * Profile目录 Profile.vue 我的
+ * 
  * 
  * 
  */
