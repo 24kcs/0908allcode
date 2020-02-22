@@ -18,5 +18,18 @@ module.exports = {
         '@': resolve('src')
       }
     },
+  },
+  devServer: {
+    proxy: {
+      '/api': {
+        // 目标的地址
+        target: 'http://localhost:5000',
+        // 是否跨域
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
   }
 }

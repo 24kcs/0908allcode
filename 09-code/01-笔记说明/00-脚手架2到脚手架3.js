@@ -22,4 +22,14 @@
  * 
  *  extensions: ['.js', '.vue', '.json'],  代表着 这些文件的后缀名是可以省略的
  * 
+ * 
+ * 
+ * 脚手架2的项目移植到脚手架3的项目中
+ * 安装各种插件包
+ * npm install stylus stylus-loader
+ * npm install vue-router
+ * npm install axios
+ * npm install swiper 
+ * 
+ * 
  */
