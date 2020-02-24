@@ -16,3 +16,30 @@ export const reqShopList = ({ longitude, latitude }) => ajax({
     latitude
   }
 })
+// 根据手机号码,发送短信验证码
+export const reqSendCode = (phone) => ajax({
+  method: 'GET',
+  url: BASE + `/sendcode`,
+  params: {
+    phone
+  }
+})
+// 手机和短信验证码登录方式接口
+export const reqSmsLogin = (phone, code) => ajax({
+  method: 'POST',
+  url: BASE + `/login_sms`,
+  data: {
+    phone,
+    code
+  }
+})
+// 用户名和密码和图形验证码的登录方式接口
+export const reqPwdLogin = ({ name, pwd, captcha }) => ajax({
+  method: 'POST',
+  url: BASE + `/login_pwd`,
+  data: {
+    name,
+    pwd,
+    captcha
+  }
+})

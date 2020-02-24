@@ -12,7 +12,15 @@
         <form>
           <div :class="{on:loginWay}">
             <section class="login_message">
-              <input type="tel" maxlength="11" placeholder="手机号" v-model="phone" />
+              <input
+                type="tel"
+                maxlength="11"
+                placeholder="手机号"
+                v-model="phone"
+                name="phone"
+                v-validate="'required|changePhone'"
+              />
+              <span style="color:red">{{ errors.first('phone') }}</span>
               <button
                 :disabled="!isRightPhone||computedTime>0"
                 :class="{right:isRightPhone}"
@@ -21,7 +29,15 @@
               >{{computedTime>0?`已发送(${computedTime}s)`:'获取验证码'}}</button>
             </section>
             <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder="验证码" />
+              <input
+                type="tel"
+                maxlength="8"
+                placeholder="验证码"
+                v-model="code"
+                name="code"
+                v-validate="'required'"
+              />
+              <span style="color:red">{{ errors.first('code') }}</span>
             </section>
             <section class="login_hint">
               温馨提示：未注册硅谷外卖帐号的手机号，登录时将自动注册，且代表已同意
@@ -31,25 +47,56 @@
           <div :class="{on:!loginWay}">
             <section>
               <section class="login_message">
-                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名" />
+                <input
+                  type="tel"
+                  maxlength="11"
+                  placeholder="手机/邮箱/用户名"
+                  v-model="name"
+                  name="name"
+                  v-validate="'required'"
+                />
+                <span style="color:red">{{ errors.first('name') }}</span>
               </section>
               <section class="login_verification">
-                <input :type="isShowPwd?'text':'password'" maxlength="8" placeholder="密码" />
-                <div class="switch_button"
-                :class="isShowPwd?'on':'off'"
-                @click="isShowPwd=!isShowPwd"
+                <input
+                  :type="isShowPwd?'text':'password'"
+                  maxlength="8"
+                  placeholder="密码"
+                  v-model="pwd"
+                  name="pwd"
+                  v-validate="'required'"
+                />
+                <span style="color:red">{{ errors.first('pwd') }}</span>
+                <div
+                  class="switch_button"
+                  :class="isShowPwd?'on':'off'"
+                  @click="isShowPwd=!isShowPwd"
                 >
                   <div class="switch_circle" :class="{run_circle:isShowPwd}"></div>
                   <span class="switch_text">{{isShowPwd?'abc':'...'}}</span>
                 </div>
               </section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码" />
-                <img @click="sendCaptcha" ref="captcha" class="get_verification" src="http://localhost:5000/captcha" alt="captcha" />
+                <input
+                  type="text"
+                  maxlength="11"
+                  placeholder="验证码"
+                  v-model="captcha"
+                  name="captcha"
+                  v-validate="'required'"
+                />
+                <span style="color:red">{{ errors.first('captcha') }}</span>
+                <img
+                  @click="sendCaptcha"
+                  ref="captcha"
+                  class="get_verification"
+                  src="http://localhost:5000/captcha"
+                  alt="captcha"
+                />
               </section>
             </section>
           </div>
-          <button class="login_submit">登录</button>
+          <button class="login_submit" @click.prevent="login">登录</button>
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
@@ -60,6 +107,10 @@
   </section>
 </template>
 <script>
+// 引入接口
+import { reqSendCode, reqSmsLogin, reqPwdLogin } from '../../api'
+// 引入Mint UI
+import { Toast, MessageBox } from 'mint-ui'
 export default {
   name: 'Login',
   data() {
@@ -67,7 +118,11 @@ export default {
       loginWay: true, // true--默认值,是短信登录,false---密码登录
       phone: '', // 用来存储手机号码的
       computedTime: 0, // 用来发送短信码倒计时的
-      isShowPwd:false, // 默认是false,表示是密文密码,如果为true,就可以看到明文密码
+      isShowPwd: false, // 默认是false,表示是密文密码,如果为true,就可以看到明文密码
+      code: '', // 短信验证码
+      name: '', // 用户名
+      pwd: '', //密码
+      captcha: '' // 图形验证码
     }
   },
   computed: {
@@ -78,9 +133,10 @@ export default {
   },
   methods: {
     // 发送短信验证码
-    sendCode() {
+    async sendCode() {
       // 进行倒计时
       this.computedTime = 10
+      // 启动定时器,并存储定时器id
       this.timeId = setInterval(() => {
         this.computedTime--
         if (this.computedTime <= 0) {
@@ -91,11 +147,64 @@ export default {
         }
       }, 1000)
 
-      // 真正的发送验证码了---调用发送短信码的接口------暂时不写了
+      // 真正的发送验证码了---调用发送短信码的接口----
+      const result = await reqSendCode(this.phone)
+      // 判断是否发送成功
+      if (result.code === 0) {
+        // 发送成功
+        Toast('发送成功')
+      } else {
+        // 发送失败了
+        // MessageBox('提示', '发送失败');
+        MessageBox.alert('发送失败了', '提示')
+      }
     },
     // 发送请求,切换图形验证码
-    sendCaptcha(){
-      this.$refs.captcha.src='http://localhost:5000/captcha?time='+Date.now()
+    sendCaptcha() {
+      this.$refs.captcha.src =
+        'http://localhost:5000/captcha?time=' + Date.now()
+    },
+    // 登录操作
+    async login() {
+      // 获取登录方式及表单验证的各个数据
+      const { loginWay, phone, code, name, pwd, captcha } = this
+      let names
+      // 判断是哪一种登录方式
+      if (loginWay) {
+        names = ['phone', 'code']
+      } else {
+        names = ['name', 'pwd', 'captcha']
+      }
+      const success = await this.$validator.validateAll(names) //表单整体校验  将来用
+      // 判断表单验证是否通过
+      if (success) {
+        // 调用不同的登录的接口
+        let result
+        // 再次判断登录方式
+        if (loginWay) {
+          // 手机和短信登录
+          result = await reqSmsLogin(phone, code)
+          // 清空短信验证码的文本框
+          this.code = ''
+        } else {
+          // 用户名/密码/图形验证码
+          result = await reqPwdLogin({ name, pwd, captcha })
+          // 重新刷新一下图形码
+          this.sendCaptcha()
+          // 图形码的文本框清空
+          this.captcha = ''
+        }
+        console.log(result)
+        // 判断调用接口后登录是否成功----
+        if (result.code === 0) {
+          // 保存用户信息
+          // 把用户数据更新到Vuex中
+          // 跳转界面
+        } else {
+          // 登录失败了
+          Toast('登录失败了')
+        }
+      }
     }
   }
 }
