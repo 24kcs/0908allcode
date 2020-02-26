@@ -10,6 +10,8 @@ import store from './store'
 import Header from './components/Header/Header.vue'
 // 引入公共组件Star
 import Star from './components/Star/Star.vue'
+// 引入CartControl 组件
+import CartControl from './components/CartControl/CartControl.vue'
 // 引入表单验证的插件validate,执行该文件中的代码
 import './validate.js'
 // 引入mock的js文件
@@ -20,6 +22,7 @@ Vue.component(Button.name, Button);
 // 注册成公共组件
 Vue.component(Header.name, Header)
 Vue.component(Star.name, Star)
+Vue.component(CartControl.name, CartControl)
 // 设置浏览器的控制台中是否显示提示信息
 Vue.config.productionTip = false
 // 创建Vue的实例对象

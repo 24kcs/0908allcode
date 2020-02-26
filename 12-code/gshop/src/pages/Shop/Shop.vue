@@ -26,10 +26,13 @@ export default {
   components: {
     ShopHeader
   },
-  async mounted() {
-    this.$store.dispatch('getGoods')
-    this.$store.dispatch('getRatings')
+  mounted() {
+    // 获取的是商家的信息-----调用action------>可以在任意组件中使用info对象的数据(vuex中已经存在了)---在ShopHeader组件中使用
     this.$store.dispatch('getInfo')
+    // this.$store.dispatch('xxx')
+    //this.$store.dispatch('getGoods')
+    // this.$store.dispatch('getRatings')
+    // this.$store.dispatch('getInfo')
     // const result1 = await reqGoods()
     // const result2 = await reqRatings()
     // const result3 = await reqInfo()

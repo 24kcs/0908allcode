@@ -19,3 +19,7 @@ export const RECEIVE_GOODS = 'receive_goods'
 export const RECEIVE_RATINGS = 'receive_ratings'
 // 商家的type
 export const RECEIVE_INFO = 'receive_info'
+// 增加食物数量
+export const ADD_FOOD_COUNT = 'add_food_count'
+// 减少食物数量
+export const REDUCE_FOOD_COUNT = 'reduce_food_count'
