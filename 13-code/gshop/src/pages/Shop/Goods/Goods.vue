@@ -25,6 +25,7 @@
                 class="food-item bottom-border-1px"
                 v-for="(food,index) in good.foods"
                 :key="index"
+                @click="showFood(food)"
               >
                 <div class="icon">
                   <img width="57" height="57" :src="food.icon" />
@@ -49,7 +50,9 @@
           </li>
         </ul>
       </div>
+      <ShopCart/>
     </div>
+    <Food :food="food" ref="food" />
   </div>
 </template>
 <script>
@@ -57,13 +60,22 @@
 import { mapState } from 'vuex'
 // 引入BScroll
 import BScroll from 'better-scroll'
+// 引入Food组件
+import Food from './Food.vue'
+// 引入ShopCart租金
+import ShopCart from './ShopCart'
 export default {
   name: 'Goods',
   data() {
     return {
       scrollY: 0, // 默认向上滑动的距离的数据
-      tops: [] // 右侧列表高度范围的数组
+      tops: [], // 右侧列表高度范围的数组
+      food: {} // 这个是food对象,用来向Food组件传递数据的-----组件之间通信
     }
+  },
+  components: {
+    Food,
+    ShopCart
   },
   computed: {
     ...mapState({
@@ -76,9 +88,10 @@ export default {
         (top, index) => scrollY >= top && scrollY < tops[index + 1]
       )
       // 判断当前计算出来的索引值和左侧列表此时的索引是否一致,如果不一致,就应该设置左侧列表滑动(每次计算的时候把当前的索引保存起来,进行对比)
-      if (this.index !== index&&this.leftScroll) {
+      if (this.index !== index && this.leftScroll) {
         // 上次左侧列表选中的索引值和当前的索引值不一致,那么就保存起来
         this.index = index
+
         // 设置左侧列表向上滑动,首先把左侧列表的li获取到
         const li = this.$refs.leftUl.children[index]
         // 设置左侧列表中对应的li移动到指定的索引的位置
@@ -131,7 +144,7 @@ export default {
         top += li.clientHeight
         tops.push(top)
       })
-       console.log(tops)
+      console.log(tops)
       // 初始化tops数据
       this.tops = tops
     },
@@ -141,6 +154,12 @@ export default {
       this.scrollY = scrollY
       // 右侧列表滑动
       this.rightScroll.scrollTo(0, -scrollY, 300)
+    },
+    // 显示当前的Food组件回调函数
+    showFood(food) {
+      // 设置当前food对象的数据
+      this.food = food
+      this.$refs.food.foodShow()
     }
   }
 }

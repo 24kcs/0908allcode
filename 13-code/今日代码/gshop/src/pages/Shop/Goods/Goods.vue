@@ -25,6 +25,7 @@
                 class="food-item bottom-border-1px"
                 v-for="(food,index) in good.foods"
                 :key="index"
+                @click="foodShow(food)"
               >
                 <div class="icon">
                   <img width="57" height="57" :src="food.icon" />
@@ -49,7 +50,9 @@
           </li>
         </ul>
       </div>
+      <ShopCart/>
     </div>
+    <Food :food="food" ref="food" />
   </div>
 </template>
 <script>
@@ -57,13 +60,22 @@
 import { mapState } from 'vuex'
 // 引入BScroll
 import BScroll from 'better-scroll'
+// 引入Food 组件
+import Food from './Food.vue'
+// 引入购物车
+import ShopCart from './ShopCart.vue'
 export default {
   name: 'Goods',
   data() {
     return {
       scrollY: 0, // 默认向上滑动的距离的数据
-      tops: [] // 右侧列表高度范围的数组
+      tops: [] ,// 右侧列表高度范围的数组
+      food:{} // 食物对象
     }
+  },
+  components: {
+    Food,
+    ShopCart
   },
   computed: {
     ...mapState({
@@ -127,11 +139,12 @@ export default {
       // 默认数组中的数据
       tops.push(top)
       const list = this.$refs.rightUl.children
+      console.dir(list)
       Array.prototype.slice.call(list).forEach(li => {
         top += li.clientHeight
         tops.push(top)
       })
-       console.log(tops)
+      // console.log(tops)
       // 初始化tops数据
       this.tops = tops
     },
@@ -141,6 +154,10 @@ export default {
       this.scrollY = scrollY
       // 右侧列表滑动
       this.rightScroll.scrollTo(0, -scrollY, 300)
+    },
+    foodShow(food){
+      this.food=food
+      this.$refs.food.showFood()
     }
   }
 }
